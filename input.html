@@ -512,7 +512,7 @@ function keluar() {
 }
 
 function loadData() {
-  fetch(API_URL + "?action=farma_list")
+  fetch(API_URL + "?action=admin_list")
     .then(r => r.json())
     .then(data => {
       tbody.innerHTML = "";
@@ -622,6 +622,7 @@ loadData();
 
 </body>
 </html>
+
 
 
 

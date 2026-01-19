@@ -499,11 +499,14 @@ tbody tr:last-child td {
 
 <!-- ===== JS ASLI (TIDAK DIUBAH) ===== -->
 <script>
-if (sessionStorage.getItem("role") !== "farma") {
-  alert("Akses ditolak.");
-  window.location.replace("pin-farma.html");
+const ROLE = sessionStorage.getItem("role") || localStorage.getItem("role");
+
+// ❗ jangan redirect, hanya peringatan
+if (!ROLE) {
+  console.warn("Role tidak ditemukan, history tetap dimuat");
 }
 </script>
+
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbw5j51EunPl0Wx5uU0EHlalMKUNsgpyg5SFAgZc9WbS-kC3yc_wxUazDGLZ2metR2cbxw/exec";
@@ -613,3 +616,4 @@ loadData();
 </script>
 </body>
 </html>
+

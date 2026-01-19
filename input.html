@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>ADMIN - FARMA</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #dff0d8;
+}
+
+/* ===== HEADER ===== */
+.header {
+  padding: 30px 40px 10px;
+  position: relative;
+}
+
+.header h1 {
+  color: #7cb342;
+  font-size: 48px;
+  margin: 0;
+  font-weight: 800;
+}
+
+/* logout */
+.logout-btn {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+
+  background: transparent;
+  border: none;
+  padding: 6px;
+
+  color: #d32f2f;          /* merah */
+  cursor: pointer;
+
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.logout-btn:hover {
+  color: #b71c1c;
+  transform: scale(1.1);
+}
+
+/* ===== CARD FORM ===== */
+.card {
+  background: #dff0d8;
+  padding: 30px 40px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px 40px;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 25px;
+  border: 1px solid #8e8b8bd2;
+  background: transparent;
+  outline: none;
+
+  appearance: none;        /* 🔥 PENTING: hapus dropdown bawaan browser */
+}
+
+
+
+input:focus {
+  border-color: #558b2f;
+}
+
+/* submit */
+.submit-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 25px;
+}
+
+.submit-wrap button {
+  background: #1e5aa7;
+  color: white;
+  padding: 14px 28px;
+  border-radius: 30px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ===== HISTORY ===== */
+.history {
+  border-top: 2px solid #999;
+  padding: 25px 40px 40px;
+}
+
+.history h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.search-box input {
+  max-width: 420px;
+  padding: 12px 18px;
+  border-radius: 25px;
+  border: 1px solid #aaa;
+  margin-bottom: 15px;
+}
+
+/* ===== TABLE ===== */
+/* container putih di belakang tabel */
+.table-container {
+  max-width: 1200px;          /* 🔥 ini kunci: tabel tidak terlalu besar */
+  margin: 0 auto;             /* center horizontal */
+  background: #ffffff;
+  padding: 16px;              /* jarak putih di sekitar tabel */
+  border-radius: 14px;
+}
+
+/* wrapper tabel */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  overflow: hidden;
+}
+
+/* tabel */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 10px;
+
+  /* 🔥 GARIS TEPI LUAR */
+  border: 1.5px solid #dcdcdc;
+}
+
+th {
+  background: #f3f3f3;
+  padding: 10px;
+  text-align: left;
+}
+
+td {
+  padding: 10px;
+  border-top: 1px solid #eee;
+}
+
+.actions button {
+  background: #1e5aa7;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.history-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+}
+
+.history-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* wrapper agar search di tengah */
+.search-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 20px;
+}
+
+/* box search */
+.search-box {
+  position: relative;
+  width: 420px;
+}
+
+/* icon kaca pembesar */
+.search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-70%); /* ⬆️ naik lebih tegas */
+  color: #333;
+  pointer-events: none;
+}
+
+/* input search */
+.search-box input {
+  width: 100%;
+  padding: 12px 18px 12px 46px;
+
+  border-radius: 16px;      /* 🔥 sudut lebih natural */
+  border: 1px solid #333;   /* 🔥 garis lebih tipis */
+
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+}
+
+th {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.th-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.th-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: #000;
+  fill: none;
+  stroke-width: 2;
+}
+
+th, td {
+  padding: 14px 16px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* 🔥 hapus garis di kolom terakhir */
+th:last-child,
+td:last-child {
+  border-right: none;
+}
+
+thead th {
+  background: #f6f6f6;
+  border-bottom: 2px solid #d6d6d6;
+  border-right: 1.5px solid #dcdcdc;
+}
+
+tbody td {
+  border-bottom: 1.5px solid #e0e0e0;
+  border-right: 1.5px solid #dcdcdc;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.required {
+  color: #d32f2f; /* merah seperti contoh */
+  margin-left: 2px;
+  font-weight: 700;
+}
+
+/* ===== FORM FIELD ===== */
+.form-field {
+  max-width: 520px; /* 🔥 PANJANG INPUT SEPERTI GAMBAR KEDUA */
+}
+
+/* input & select tidak full grid */
+/* ===== DROPDOWN ICON (KHUSUS SELECT) ===== */
+.form-field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+  background-size: 16px;
+  cursor: pointer;
+}
+
+
+.admin-page {
+  width: 100%;
+  display: flex;
+  justify-content: center; /* center horizontal */
+}
+
+.form-container {
+  width: 100%;
+  max-width: 1100px; /* ini yang bikin ke tengah seperti gambar ke-2 */
+  padding: 32px;
+}
+</style>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>ADMIN</h1>
+  <button class="logout-btn" onclick="keluar()" title="Keluar">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+       xmlns="http://www.w3.org/2000/svg">
+    <rect x="3" y="3" width="12" height="18" rx="2"
+          stroke="currentColor" stroke-width="2"/>
+    <path d="M10 12H21M21 12L18 9M21 12L18 15"
+          stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+</div>
+
+<!-- FORM -->
+<div class="admin-page">
+<div class="form-container">
+<div class="card">
+  <input type="hidden" id="edit_row">
+
+  <div class="form-grid">
+    <div class="form-field">
+      <label>Nama Outlet<span class="required">*</span></label>
+      <input id="nama_outlet" placeholder="nama outlet">
+    </div>
+    <div class="form-field">
+      <label>No ID Paket<span class="required">*</span></label>
+      <input id="no_id_paket" placeholder="no id paket">
+    </div>
+
+    <div class="form-field">
+  <label>Status<span class="required">*</span></label>
+    <select id="online">
+      <option value="">-- Pilih Status --</option>
+      <option value="Online">Online</option>
+      <option value="Tidak Online">Tidak</option>
+    </select>
+  </div>
+
+    <div class="form-field">
+      <label>Nominal<span class="required">*</span></label>
+      <input id="nominal" placeholder="nominal">
+    </div>
+
+    <div class="form-field">
+      <label>No SPK<span class="required">*</span></label>
+      <input id="no_spk" placeholder="no SPK">
+    </div>
+    <div class="form-field">
+      <label>No Faktur<span class="required">*</span></label>
+      <input id="no_faktur" placeholder="no faktur">
+    </div>
+
+   <div class="form-field">
+      <label>PIC Salesmen<span class="required">*</span></label>
+      <input id="pic_salesman" placeholder="pic salesman">
+    </div>
+  </div>
+
+
+
+  <div class="submit-wrap">
+    <button onclick="simpan()">Submit or Update</button>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- HISTORY -->
+<div class="history">
+  <h3 class="history-title">
+  <span class="history-icon">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+         xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 12a9 9 0 1 0 3-6.7"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
+      <path d="M3 4v5h5"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
+    </svg>
+  </span>
+  History
+</h3>
+
+  <div class="search-wrapper">
+  <div class="search-box">
+    <span class="search-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+           xmlns="http://www.w3.org/2000/svg">
+        <circle cx="11" cy="11" r="7"
+                stroke="currentColor" stroke-width="2"/>
+        <line x1="16.65" y1="16.65"
+              x2="21" y2="21"
+              stroke="currentColor" stroke-width="2"
+              stroke-linecap="round"/>
+      </svg>
+    </span>
+    <input
+      id="searchInput"
+      placeholder="Search"
+      onkeyup="filterTable()"
+    >
+  </div>
+</div>
+
+<div class="table-container">
+  <div class="table-wrapper">
+    <table>
+      <thead>
+  <tr>
+    <th>No</th>
+
+    <th>
+      <span class="th-icon">
+        <!-- user icon -->
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+        </svg>
+      </span>
+      Nama Outlet
+    </th>
+
+    <th>
+      <span class="th-icon">
+        <!-- list icon -->
+        <svg viewBox="0 0 24 24">
+          <line x1="8" y1="6" x2="20" y2="6"/>
+          <line x1="8" y1="12" x2="20" y2="12"/>
+          <line x1="8" y1="18" x2="20" y2="18"/>
+          <circle cx="4" cy="6" r="1"/>
+          <circle cx="4" cy="12" r="1"/>
+          <circle cx="4" cy="18" r="1"/>
+        </svg>
+      </span>
+      Online
+    </th>
+
+    <th><span class="th-icon">#</span> No SPK</th>
+    <th><span class="th-icon">#</span> No ID Paket</th>
+    <th><span class="th-icon">#</span> Nominal</th>
+    <th><span class="th-icon">#</span> No Faktur</th>
+
+    <th>
+      <span class="th-icon">
+        <!-- user icon -->
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+        </svg>
+      </span>
+      PIC
+    </th>
+
+    <th>
+      <span class="th-icon">
+        <!-- info icon -->
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9"/>
+          <line x1="12" y1="10" x2="12" y2="16"/>
+          <circle cx="12" cy="7" r="1"/>
+        </svg>
+      </span>
+      Status
+    </th>
+
+    <th>
+      <span class="th-icon">
+        <!-- edit icon -->
+        <svg viewBox="0 0 24 24">
+          <path d="M4 20h4l10-10-4-4L4 16v4z"/>
+        </svg>
+      </span>
+      Aksi
+    </th>
+  </tr>
+</thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===== JS ASLI (TIDAK DIUBAH) ===== -->
+<script>
+const role = sessionStorage.getItem("role");
+if (!role) {
+  window.location.replace("pin-farma.html");
+}
+
+/* ===== DOM SAFE (WAJIB DI HOSTING) ===== */
+const tbody = document.getElementById("tbody");
+const searchInput = document.getElementById("searchInput");
+const edit_row = document.getElementById("edit_row");
+const nama_outlet = document.getElementById("nama_outlet");
+const online = document.getElementById("online");
+const no_spk = document.getElementById("no_spk");
+const no_id_paket = document.getElementById("no_id_paket");
+const nominal = document.getElementById("nominal");
+const no_faktur = document.getElementById("no_faktur");
+const pic_salesman = document.getElementById("pic_salesman");
+
+const API_URL = "https://script.google.com/macros/s/AKfycbw5j51EunPl0Wx5uU0EHlalMKUNsgpyg5SFAgZc9WbS-kC3yc_wxUazDGLZ2metR2cbxw/exec";
+
+function keluar() {
+  sessionStorage.clear();
+  window.location.replace("pin-farma.html");
+}
+
+function loadData() {
+  fetch(API_URL + "?action=farma_list")
+    .then(res => res.json())
+    .then(data => {
+      tbody.innerHTML = "";
+      data.forEach(d => {
+        tbody.innerHTML += `
+        <tr>
+          <td>${d["No"]}</td>
+          <td>${d["Nama Outlet"]}</td>
+          <td>${d["Online / Tidak"]}</td>
+          <td>${d["No SPK"]}</td>
+          <td>${d["No ID Paket"]}</td>
+          <td>${d["Nominal"]}</td>
+          <td>${d["No Faktur"]}</td>
+          <td>${d["PIC Salesman"]}</td>
+          <td>${d["Keterangan"]}</td>
+          <td class="actions"><button onclick='editData(${JSON.stringify(d)})'>Edit</button></td>
+        </tr>`;
+      });
+    });
+}
+
+function filterTable() {
+  const q = searchInput.value.toLowerCase();
+  document.querySelectorAll("#tbody tr").forEach(tr => {
+    tr.style.display = tr.innerText.toLowerCase().includes(q) ? "" : "none";
+  });
+}
+
+function editData(d) {
+  edit_row.value = d._row;
+  nama_outlet.value = d["Nama Outlet"];
+  online.value = d["Online / Tidak"];
+  no_spk.value = d["No SPK"];
+  no_id_paket.value = d["No ID Paket"];
+  nominal.value = d["Nominal"];
+  no_faktur.value = d["No Faktur"];
+  pic_salesman.value = d["PIC Salesman"];
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function simpan() {
+  if (!nama_outlet.value || !online.value) {
+    swal("Peringatan", "Semua field wajib diisi", "warning");
+    return;
+  }
+
+  const payload = {
+    nama_outlet: nama_outlet.value,
+    online: online.value,
+    no_spk: no_spk.value,
+    no_id_paket: no_id_paket.value,
+    nominal: nominal.value,
+    no_faktur: no_faktur.value,
+    pic_salesman: pic_salesman.value
+  };
+
+  fetch(API_URL, { method: "POST", body: JSON.stringify(payload) })
+    .then(() => {
+      swal("Berhasil", "Data disimpan", "success");
+      loadData();
+    });
+}
+
+loadData();
+</script>
+</body>
+</html>

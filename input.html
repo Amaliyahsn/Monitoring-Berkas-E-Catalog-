@@ -588,14 +588,15 @@ function simpan() {
     fetch(API_URL, {
       method: "POST",
       body: JSON.stringify({
-        nama_outlet: nama_outlet.value,
-        online: online.value,
-        no_spk: no_spk.value,
-        no_id_paket: no_id_paket.value,
-        nominal: nominal.value,
-        no_faktur: no_faktur.value,
-        pic_salesman: pic_salesman.value
-      })
+      "Nama Outlet": nama_outlet.value,
+      "Online / Tidak": online.value,
+      "No SPK": no_spk.value,
+      "No ID Paket": no_id_paket.value,
+      "Nominal": nominal.value,
+      "No Faktur": no_faktur.value,
+      "PIC Salesman": pic_salesman.value
+    })
+
     })
     .then(() => {
       swal("Berhasil", "Data disimpan", "success");
@@ -626,3 +627,4 @@ loadData();
 
 </body>
 </html>
+
